@@ -16,25 +16,16 @@ varying vec3        v_normal;
 varying vec2        v_texcoord;
 #endif
 
+#include "lygia/space/rotate.glsl";
+#include "lygia/sdf/triSDF.glsl";
+
 void main(void) {
     vec4 color = vec4(0.0, 0.0, 0.0, 1.0);
     vec2 pixel = 1.0/u_resolution;
     vec2 st = gl_FragCoord.xy * pixel;
 
-    #if defined(BACKGROUND)
-    float circ = step(0.2, distance(0.5, 1.0));
-    color.rgb += circ;
-
-    #else
-    // Diffuse shading from directional light
-    vec3 n = normalize(v_normal);
-    vec3 l = normalize(u_light - v_position.xyz);
-    color.rgb += dot(l, n) * 0.5 + 0.5;
-    color.rgb += step(.05, fract( (st.x + st.y) * 40.0 + u_time * 2.0));
-    color.a = 0.0;
-
-    #endif
+    float t2 = step(0.3, triSDF(st));
+    color.rgb += t2;
 
     gl_FragColor = color;
 }
-
