@@ -23,15 +23,15 @@ void main(void) {
 
     #if defined(BACKGROUND)
     float dist = distance(st, vec2(0.5));
-    color.rgb += 1.0-dist;
-    // color.rgb += step(.5, fract( (st.x + st.y) * 10.0 + u_time)) * 0.5;
 
     #else
 
     // Diffuse shading from directional light
     vec3 n = normalize(v_normal);
     vec3 l = normalize(u_light - v_position.xyz);
-    color.rgb += dot(n, l) * 0.5 + 0.5;
+    color.rgb += step(0.95, fract((st.x - st.y) * 70.0 + n));
+    color.rgb += step(0.95, fract((st.x + st.y) * 70.0 + n));
+    color.rgb -= dot(n, l) * 0.5 + 0.8;
     #endif
 
     gl_FragColor = color;
