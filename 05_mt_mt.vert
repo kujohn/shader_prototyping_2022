@@ -52,14 +52,6 @@ void main(void) {
     v_normal = a_normal;
 #endif
 
-    #ifdef MODEL_NAME_TOP
-    float pct = mirror(u_time * 0.5);
-    // pct = elasticInOut(pct);
-    v_position = rotateY(v_position, pct * -PI * 0.1);
-    v_normal = rotateY(v_normal, pct *  -PI * 0.1);
-    v_position.y -= (pct) * .5;
-    #endif
-
     #ifdef MODEL_NAME_BOTTOM
     float pct = mirror(u_time * 0.5);
     pct = elasticInOut(pct);
